@@ -1,0 +1,39 @@
+:root { color-scheme: dark; --bg: #131411; --surface: #191b16; --line: #383b30; --ink: #e8e6d9; --muted: #a4a79a; --accent: #eab85c; font-family: "Courier New", Courier, monospace; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); min-height: 100vh; background-image: linear-gradient(#ffffff02 1px, transparent 1px); background-size: 100% 6px; }
+main { max-width: 1440px; margin: auto; padding: 0 5vw; }
+.masthead { min-height: 104px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); gap: 20px; }
+.wordmark { color: var(--ink); font-size: 22px; font-weight: bold; text-decoration: none; letter-spacing: -1px; }
+.wordmark span { color: var(--muted); font-weight: normal; }
+.public-label, .eyebrow, footer { font-size: 10px; letter-spacing: 2px; }
+.public-label { color: var(--muted); }
+.room { padding: 54px 0 34px; }
+.room-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
+.eyebrow { color: var(--accent); margin: 0 0 15px; }
+h1 { font-family: Georgia, "Times New Roman", serif; font-weight: normal; font-size: clamp(38px, 5.2vw, 70px); line-height: 1.05; letter-spacing: -2px; margin: 0; }
+.status { display: inline-flex; gap: 9px; align-items: center; padding: 11px 13px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 1px; white-space: nowrap; margin-bottom: 4px; }
+.status-dot { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; }
+.status[data-state="live"] .status-dot { background: #b9db78; box-shadow: 0 0 12px #b9db7840; }
+.status[data-state="connecting"] .status-dot, .status[data-state="full"] .status-dot { background: var(--accent); }
+.screen { position: relative; aspect-ratio: 16 / 9; background: #090b08; border: 1px solid var(--line); overflow: hidden; }
+video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.waiting { position: absolute; inset: 0 0 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; pointer-events: none; background: radial-gradient(ellipse at center, #20231b70, transparent 65%); }
+.waiting[hidden] { display: none; }
+.crosshair { color: var(--accent); font-size: 38px; font-weight: normal; line-height: 1; margin-bottom: 22px; }
+.waiting p { font: normal clamp(24px, 3vw, 38px) Georgia, serif; margin: 0 0 12px; }
+.waiting > span:last-child { font-size: 11px; color: var(--muted); max-width: 380px; line-height: 1.7; }
+.screen-corner { position: absolute; width: 17px; height: 17px; border-color: var(--accent); border-style: solid; pointer-events: none; }
+.top-left { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.bottom-right { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.toolbar p { color: var(--muted); font-size: 11px; line-height: 1.6; margin: 0; }
+.actions { display: flex; gap: 8px; flex-shrink: 0; }
+button { font: inherit; font-size: 11px; color: var(--ink); background: var(--surface); border: 1px solid #56594a; padding: 12px 16px; min-height: 44px; cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+button:disabled { opacity: .45; cursor: default; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+footer { color: var(--muted); display: flex; justify-content: space-between; gap: 20px; padding: 0 0 30px; line-height: 1.6; }
+.notice { color: var(--accent); }
+.screen:fullscreen { border: 0; background: #000; width: 100%; height: 100%; }
+@media (max-width: 640px) { main { padding: 0 5vw; } .masthead { min-height: 78px; } .public-label { display: none; } .room { padding-top: 35px; } .room-heading { align-items: start; flex-direction: column; gap: 20px; margin-bottom: 18px; } .eyebrow { font-size: 8px; letter-spacing: 1.4px; } .status { padding: 8px 10px; } .toolbar { align-items: start; flex-direction: column; gap: 12px; } .actions { width: 100%; } button { flex: 1; } .waiting { inset: 0 0 30px; padding: 12px; } .crosshair { display: none; } .waiting p { font-size: 23px; margin-bottom: 6px; } .waiting > span:last-child { font-size: 10px; } footer { font-size: 8px; letter-spacing: 1px; } }
+@media (prefers-reduced-motion: no-preference) { .status[data-state="connecting"] .status-dot { animation: signal 1.6s ease-in-out infinite; } @keyframes signal { 50% { opacity: .3; } } }

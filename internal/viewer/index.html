@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131411">
+  <title>Viewing room — share.detrouse.com</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="Viewing room home">detrouse<span> / share</span></a>
+      <span class="public-label">PUBLIC VIEWING ROOM</span>
+    </header>
+    <section class="room" aria-labelledby="room-title">
+      <div class="room-heading">
+        <div><p class="eyebrow">A WINDOW INTO WHAT'S HAPPENING</p><h1 id="room-title">Pull up a chair.</h1></div>
+        <div id="status" class="status" data-state="connecting" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="status-text">CONNECTING</span></div>
+      </div>
+      <div class="screen" id="screen">
+        <video id="video" autoplay muted playsinline controls aria-label="Live shared screen with audio"></video>
+        <div class="waiting" id="waiting">
+          <span class="crosshair" aria-hidden="true">+</span>
+          <p id="waiting-title">Finding the signal.</p>
+          <span id="waiting-detail">Connecting to the viewing room…</span>
+        </div>
+        <span class="screen-corner top-left" aria-hidden="true"></span><span class="screen-corner bottom-right" aria-hidden="true"></span>
+      </div>
+      <div class="toolbar">
+        <p id="hint">Playback starts muted. Sound is your call.</p>
+        <div class="actions"><button id="sound" type="button" disabled>Enable sound</button><button id="fullscreen" type="button">Fullscreen <span aria-hidden="true">↗</span></button></div>
+      </div>
+      <noscript><p class="notice">JavaScript is required to receive this live stream.</p></noscript>
+    </section>
+    <footer><span>ONE SCREEN. SAME MOMENT.</span><span>share.detrouse.com</span></footer>
+  </main>
+</body>
+</html>

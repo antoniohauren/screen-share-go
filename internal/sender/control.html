@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Screen Share — Windows sender</title>
+<style>
+body{font:17px system-ui,sans-serif;max-width:680px;margin:50px auto;padding:20px;background:#151a22;color:#f2f4f8}h1{font-size:30px}label{display:block;margin-top:24px}input,select,button{font:inherit;padding:12px;border:1px solid #778494;border-radius:5px;background:#222b38;color:inherit}input,select{box-sizing:border-box;width:100%;margin-top:8px}button{margin:18px 8px 0 0;cursor:pointer}button:disabled{opacity:.5;cursor:default}#error{white-space:pre-wrap;color:#ffb5b5}small{display:block;line-height:1.6;color:#bdc9db}#state{font-weight:bold}
+</style>
+<h1>Screen Share</h1>
+<p>Windows-native video and playback audio. Browser only controls capture.</p>
+<label for="source">Monitor or window</label><select id="source" aria-describedby="audio"><option value="">Loading sources…</option></select>
+<small id="audio">Monitor: all system playback. Window: owning process and its children only. Microphone is never captured. Minimized windows cannot be selected.</small>
+<button id="refresh">Refresh sources</button>
+<label for="token">Publishing token</label><input id="token" type="password" autocomplete="off" spellcheck="false">
+<small>Sent only to https://share.detrouse.com. Never saved.</small>
+<button id="start">Start</button><button id="stop" disabled>Stop</button>
+<p>Status: <span id="state" role="status">stopped</span></p><pre id="error" role="alert"></pre>
+<small>Keep sender.exe running. Stop before closing this panel; closing the browser does not stop capture. Capture errors stop both video and audio. Window audio can include other windows owned by the same process tree.</small>
+<script>
+const $=id=>document.getElementById(id); let busy=false;
+async function api(path,body){const response=await fetch(path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!response.ok)throw Error(await response.text());return response.json()}
+async function refresh(){try{const sources=await api('sources');$('source').replaceChildren();for(const s of sources){const o=document.createElement('option');o.value=s.id;o.textContent=(s.kind==='monitor'?'Monitor — ':'Window — ')+s.name;$('source').append(o)}}catch(e){$('error').textContent=e.message}}
+async function status(){try{const s=await api('status');$('state').textContent=s.state;$('error').textContent=s.error;const active=s.state!=='stopped';$('start').disabled=busy||active;$('stop').disabled=busy||!active;$('source').disabled=active;$('refresh').disabled=active}catch(e){$('error').textContent='Sender unavailable. Check sender.exe. '+e.message}}
+$('refresh').onclick=refresh;
+$('start').onclick=async()=>{busy=true;$('start').disabled=true;try{await api('start',{source:$('source').value,token:$('token').value});$('token').value=''}catch(e){$('error').textContent=e.message;busy=false;$('start').disabled=false;return}busy=false;await status()};
+$('stop').onclick=async()=>{busy=true;try{await api('stop',{})}catch(e){$('error').textContent=e.message}finally{busy=false;await status()}};
+refresh();status();setInterval(status,1000);
+</script></html>

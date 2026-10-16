@@ -1,0 +1,9 @@
+/bin/
+/dist/
+/windows/dist/
+/certs/
+/token
+*.exe
+*.dll
+*.pdb
+**/build/
